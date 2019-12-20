@@ -220,8 +220,7 @@ namespace PureCloud_simulator
 
         private void btnDataTableAddRow_Click(object sender, EventArgs e)
         {
-            var result = dt.GetDataTableId("AMO - Calendrier VIP");
-            dt.AddRow(result);
+
 
         }
 
@@ -255,7 +254,7 @@ namespace PureCloud_simulator
                 //var result = dt.GetDataTableId("ROUTAGE_CP_OK");
                 //dt.AddRows_ROUTAGE_CP_OK(dialog.FileName, result);
                 var result = dt.GetDataTableId("ANNONCE_MSG");
-                dt.AddRows_ANNONCE_MSG(dialog.FileName, result);
+                dt.AddRows(dialog.FileName, result);
             }
         }
 
@@ -305,60 +304,8 @@ namespace PureCloud_simulator
             tmrEwt.Enabled = false;
         }
 
-        private void btnAnnonceMsgFlash_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "CSV Files (*.csv)|*.csv";
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                var result = dt.GetDataTableId("ANNONCE_MSG_FLASH");
-                dt.AddRows_ANNONCE_MSG_FLASH(dialog.FileName, result);
-            }
-        }
 
-        private void btnAnnonceFlash_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "CSV Files (*.csv)|*.csv";
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                var result = dt.GetDataTableId("ANNONCE_MSG");
-                dt.AddRows_ANNONCE_MSG(dialog.FileName, result);
-            }
-        }
 
-        private void btnRoutageAng_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "CSV Files (*.csv)|*.csv";
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                var result = dt.GetDataTableId("ROUTAGE_ANG");
-                dt.AddRows_ROUTAGE_ANG(dialog.FileName, result);
-            }
-        }
-
-        private void btnRoutageCpOk_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "CSV Files (*.csv)|*.csv";
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                var result = dt.GetDataTableId("ROUTAGE_CP_OK");
-                dt.AddRows_ROUTAGE_CP_OK(dialog.FileName, result);
-            }
-        }
-
-        private void btnRoutageCpKo_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "CSV Files (*.csv)|*.csv";
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                var result = dt.GetDataTableId("ROUTAGE_CP_KO");
-                dt.AddRows_ROUTAGE_CP_KO(dialog.FileName, result);
-            }
-        }
 
         private void btnCreateDataTable_Click(object sender, EventArgs e)
         {
@@ -378,24 +325,11 @@ namespace PureCloud_simulator
             dialog.Filter = "CSV Files (*.csv)|*.csv";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                //var result = dt.GetDataTableId("ANNONCE_MSG");
-                //dt.AddRows_ANNONCE_MSG(dialog.FileName, result);
-                //dt.CreateAndFillDataTable("ANNONCE_MSG", dialog.FileName);
                 dt.CreateAndFillDataTable(dialog.FileName);
 
             }
         }
 
-        private void btnAnnonceSondage_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "CSV Files (*.csv)|*.csv";
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                var result = dt.GetDataTableId("ANNONCE_SONDAGE");
-                dt.AddRows_ANNONCE_SONDAGE(dialog.FileName, result);
-            }
-        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -414,8 +348,7 @@ namespace PureCloud_simulator
             dialog.Filter = "CSV Files (*.csv)|*.csv";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var result = dt.GetDataTableId("ANNONCE_MSG_FLASH");
-                dt.AddRows(dialog.FileName, result);
+                dt.DeleteDataTable(dialog.FileName);
             }
         }
 

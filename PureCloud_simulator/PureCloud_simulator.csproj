@@ -87,11 +87,6 @@
     <Compile Include="CallCenter\Interactions.cs" />
     <Compile Include="CallCenter\User.cs" />
     <Compile Include="ConversationMetric.cs" />
-    <Compile Include="DataTable\DataTableRow_ANNONCE_MSG.cs" />
-    <Compile Include="DataTable\DataTableRow_ANNONCE_MSG_FLASH.cs" />
-    <Compile Include="DataTable\DataTableRow_ANNONCE_SONDAGE.cs" />
-    <Compile Include="DataTable\DataTableRow_ROUTAGE_CP_KO.cs" />
-    <Compile Include="DataTable\DataTableRow_ROUTAGE_CP_OK.cs" />
     <Compile Include="Model\ConversationData.cs" />
     <Compile Include="Model\Interval.cs" />
     <Compile Include="Model\ParticipantAttr.cs" />
@@ -101,7 +96,6 @@
     <Compile Include="Connection.cs" />
     <Compile Include="DataTable\DataTable.cs" />
     <Compile Include="DataTable\DataTableRow_PROTO.cs" />
-    <Compile Include="DataTable\DataTableRow_CF_LABEL_NAS.cs" />
     <Compile Include="DataTable\DataTableRow.cs" />
     <Compile Include="EncryptionHelper.cs" />
     <Compile Include="Form1.cs">

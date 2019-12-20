@@ -66,17 +66,12 @@ namespace PureCloud_simulator
             this.tabSkills = new System.Windows.Forms.TabPage();
             this.tabDataTables = new System.Windows.Forms.TabPage();
             this.btnImport = new System.Windows.Forms.Button();
-            this.btnAnnonceSondage = new System.Windows.Forms.Button();
             this.btnCreateAndFillDataTable = new System.Windows.Forms.Button();
             this.btnCreateDataTable = new System.Windows.Forms.Button();
-            this.btnRoutageCpKo = new System.Windows.Forms.Button();
-            this.btnRoutageCpOk = new System.Windows.Forms.Button();
-            this.btnRoutageAng = new System.Windows.Forms.Button();
-            this.btnAnnonceFlash = new System.Windows.Forms.Button();
-            this.btnAnnonceMsgFlash = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.btnImportWrapupCode = new System.Windows.Forms.Button();
             this.tabUsers = new System.Windows.Forms.TabPage();
+            this.btnDeleteHomeDivision = new System.Windows.Forms.Button();
             this.btnGetUserProfile = new System.Windows.Forms.Button();
             this.btnUserRole = new System.Windows.Forms.Button();
             this.btnDefaultStation = new System.Windows.Forms.Button();
@@ -104,7 +99,6 @@ namespace PureCloud_simulator
             this.btnMonitor = new System.Windows.Forms.Button();
             this.tmrEwt = new System.Windows.Forms.Timer(this.components);
             this.btnTest = new System.Windows.Forms.Button();
-            this.btnDeleteHomeDivision = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabQueues.SuspendLayout();
@@ -497,14 +491,8 @@ namespace PureCloud_simulator
             // tabDataTables
             // 
             this.tabDataTables.Controls.Add(this.btnImport);
-            this.tabDataTables.Controls.Add(this.btnAnnonceSondage);
             this.tabDataTables.Controls.Add(this.btnCreateAndFillDataTable);
             this.tabDataTables.Controls.Add(this.btnCreateDataTable);
-            this.tabDataTables.Controls.Add(this.btnRoutageCpKo);
-            this.tabDataTables.Controls.Add(this.btnRoutageCpOk);
-            this.tabDataTables.Controls.Add(this.btnRoutageAng);
-            this.tabDataTables.Controls.Add(this.btnAnnonceFlash);
-            this.tabDataTables.Controls.Add(this.btnAnnonceMsgFlash);
             this.tabDataTables.Controls.Add(this.btnGetDataTable);
             this.tabDataTables.Controls.Add(this.btnAddRowsDataTable);
             this.tabDataTables.Controls.Add(this.btnDataTableAddRow);
@@ -521,21 +509,11 @@ namespace PureCloud_simulator
             // 
             this.btnImport.Location = new System.Drawing.Point(241, 94);
             this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(75, 23);
+            this.btnImport.Size = new System.Drawing.Size(136, 23);
             this.btnImport.TabIndex = 32;
-            this.btnImport.Text = "Import";
+            this.btnImport.Text = "Delete DT";
             this.btnImport.UseVisualStyleBackColor = true;
             this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
-            // 
-            // btnAnnonceSondage
-            // 
-            this.btnAnnonceSondage.Location = new System.Drawing.Point(23, 211);
-            this.btnAnnonceSondage.Name = "btnAnnonceSondage";
-            this.btnAnnonceSondage.Size = new System.Drawing.Size(187, 23);
-            this.btnAnnonceSondage.TabIndex = 31;
-            this.btnAnnonceSondage.Text = "ANNONCE_SONDAGE";
-            this.btnAnnonceSondage.UseVisualStyleBackColor = true;
-            this.btnAnnonceSondage.Click += new System.EventHandler(this.btnAnnonceSondage_Click);
             // 
             // btnCreateAndFillDataTable
             // 
@@ -556,56 +534,6 @@ namespace PureCloud_simulator
             this.btnCreateDataTable.Text = "Create DataTable";
             this.btnCreateDataTable.UseVisualStyleBackColor = true;
             this.btnCreateDataTable.Click += new System.EventHandler(this.btnCreateDataTable_Click);
-            // 
-            // btnRoutageCpKo
-            // 
-            this.btnRoutageCpKo.Location = new System.Drawing.Point(23, 182);
-            this.btnRoutageCpKo.Name = "btnRoutageCpKo";
-            this.btnRoutageCpKo.Size = new System.Drawing.Size(187, 23);
-            this.btnRoutageCpKo.TabIndex = 28;
-            this.btnRoutageCpKo.Text = "ROUTAGE_CP_KO";
-            this.btnRoutageCpKo.UseVisualStyleBackColor = true;
-            this.btnRoutageCpKo.Click += new System.EventHandler(this.btnRoutageCpKo_Click);
-            // 
-            // btnRoutageCpOk
-            // 
-            this.btnRoutageCpOk.Location = new System.Drawing.Point(23, 152);
-            this.btnRoutageCpOk.Name = "btnRoutageCpOk";
-            this.btnRoutageCpOk.Size = new System.Drawing.Size(187, 23);
-            this.btnRoutageCpOk.TabIndex = 27;
-            this.btnRoutageCpOk.Text = "ROUTAGE_CP_OK";
-            this.btnRoutageCpOk.UseVisualStyleBackColor = true;
-            this.btnRoutageCpOk.Click += new System.EventHandler(this.btnRoutageCpOk_Click);
-            // 
-            // btnRoutageAng
-            // 
-            this.btnRoutageAng.Location = new System.Drawing.Point(23, 123);
-            this.btnRoutageAng.Name = "btnRoutageAng";
-            this.btnRoutageAng.Size = new System.Drawing.Size(187, 23);
-            this.btnRoutageAng.TabIndex = 26;
-            this.btnRoutageAng.Text = "ROUTAGE_ANG";
-            this.btnRoutageAng.UseVisualStyleBackColor = true;
-            this.btnRoutageAng.Click += new System.EventHandler(this.btnRoutageAng_Click);
-            // 
-            // btnAnnonceFlash
-            // 
-            this.btnAnnonceFlash.Location = new System.Drawing.Point(23, 94);
-            this.btnAnnonceFlash.Name = "btnAnnonceFlash";
-            this.btnAnnonceFlash.Size = new System.Drawing.Size(187, 23);
-            this.btnAnnonceFlash.TabIndex = 25;
-            this.btnAnnonceFlash.Text = "ANNONCE_MSG";
-            this.btnAnnonceFlash.UseVisualStyleBackColor = true;
-            this.btnAnnonceFlash.Click += new System.EventHandler(this.btnAnnonceFlash_Click);
-            // 
-            // btnAnnonceMsgFlash
-            // 
-            this.btnAnnonceMsgFlash.Location = new System.Drawing.Point(23, 65);
-            this.btnAnnonceMsgFlash.Name = "btnAnnonceMsgFlash";
-            this.btnAnnonceMsgFlash.Size = new System.Drawing.Size(187, 23);
-            this.btnAnnonceMsgFlash.TabIndex = 24;
-            this.btnAnnonceMsgFlash.Text = "ANNONCE_MSG_FLASH";
-            this.btnAnnonceMsgFlash.UseVisualStyleBackColor = true;
-            this.btnAnnonceMsgFlash.Click += new System.EventHandler(this.btnAnnonceMsgFlash_Click);
             // 
             // tabPage1
             // 
@@ -657,6 +585,16 @@ namespace PureCloud_simulator
             this.tabUsers.TabIndex = 5;
             this.tabUsers.Text = "Users";
             this.tabUsers.UseVisualStyleBackColor = true;
+            // 
+            // btnDeleteHomeDivision
+            // 
+            this.btnDeleteHomeDivision.Location = new System.Drawing.Point(174, 216);
+            this.btnDeleteHomeDivision.Name = "btnDeleteHomeDivision";
+            this.btnDeleteHomeDivision.Size = new System.Drawing.Size(143, 23);
+            this.btnDeleteHomeDivision.TabIndex = 19;
+            this.btnDeleteHomeDivision.Text = "Del Home Div";
+            this.btnDeleteHomeDivision.UseVisualStyleBackColor = true;
+            this.btnDeleteHomeDivision.Click += new System.EventHandler(this.btnDeleteHomeDivision_Click);
             // 
             // btnGetUserProfile
             // 
@@ -933,16 +871,6 @@ namespace PureCloud_simulator
             this.btnTest.UseVisualStyleBackColor = true;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
-            // btnDeleteHomeDivision
-            // 
-            this.btnDeleteHomeDivision.Location = new System.Drawing.Point(174, 216);
-            this.btnDeleteHomeDivision.Name = "btnDeleteHomeDivision";
-            this.btnDeleteHomeDivision.Size = new System.Drawing.Size(143, 23);
-            this.btnDeleteHomeDivision.TabIndex = 19;
-            this.btnDeleteHomeDivision.Text = "Del Home Div";
-            this.btnDeleteHomeDivision.UseVisualStyleBackColor = true;
-            this.btnDeleteHomeDivision.Click += new System.EventHandler(this.btnDeleteHomeDivision_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1014,14 +942,8 @@ namespace PureCloud_simulator
         private System.Windows.Forms.Button btnEwt;
         private System.Windows.Forms.Timer tmrEwt;
         private System.Windows.Forms.Button btmEwt2;
-        private System.Windows.Forms.Button btnRoutageCpKo;
-        private System.Windows.Forms.Button btnRoutageCpOk;
-        private System.Windows.Forms.Button btnRoutageAng;
-        private System.Windows.Forms.Button btnAnnonceFlash;
-        private System.Windows.Forms.Button btnAnnonceMsgFlash;
         private System.Windows.Forms.Button btnCreateDataTable;
         private System.Windows.Forms.Button btnCreateAndFillDataTable;
-        private System.Windows.Forms.Button btnAnnonceSondage;
         private System.Windows.Forms.Button btnGetUser;
         private System.Windows.Forms.Button btnImport;
         private System.Windows.Forms.TabPage tabUsers;

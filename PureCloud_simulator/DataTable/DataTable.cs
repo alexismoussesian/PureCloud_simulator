@@ -202,6 +202,53 @@ namespace PureCloud_simulator
             }
         }
 
+        public string checkType(string filename, string field)
+        {
+            StreamReader file = new StreamReader(filename);
+            string line = file.ReadLine();
+            bool found = false;
+            var colonnes = line.Split(';');
+            int indiceHead = 0;
+            int indiceField = 0;
+            int numItem = 0;
+
+            foreach (var test in colonnes)
+            {
+                if (test.Equals(field))
+                {
+                    indiceHead = numItem;
+                }
+                numItem++;
+            }
+
+            line = file.ReadLine();
+            colonnes = line.Split(';');
+            numItem = 0;
+            foreach (var test in colonnes)
+            {
+                switch (test)
+                {
+                    case "true":
+                    case "True":
+                    case "TRUE":
+                    case "false":
+                    case "False":
+                    case "FALSE":
+                        indiceField = numItem;
+                        found = true;
+                        break;
+                    default:
+                        break;
+                }
+                numItem++;
+            }
+
+            if (found && (indiceHead == indiceField))
+                return "boolean";
+            else
+                return "string";
+        }
+
 
         public void CreateAndFillDataTable(string filename)
         {
@@ -221,19 +268,21 @@ namespace PureCloud_simulator
                 Dictionary<string, object> properties = new Dictionary<string, object>();
 
                 var colonnes = line.Split(';');
+
                 foreach (var colonne in colonnes)
                 {
                     fields.Add(colonne);
                 }
-                file.Close();
 
+                file.Close();
 
                 foreach (var column in fields)
                 {
                     Dictionary<string, string> item = new Dictionary<string, string>();
 
                     item.Add("title", column);
-                    item.Add("type", "string");
+                    var typeField = checkType(filename, column);
+                    item.Add("type", typeField);
                     if (columnKey)
                     {
                         properties.Add("key", item);
@@ -246,7 +295,8 @@ namespace PureCloud_simulator
                 }
 
 
-                var dataTableId = this.GetDataTableId(shortFileName);
+                var dataTableId = GetDataTableId(shortFileName);
+
                 if (dataTableId.Equals(""))
                 {
                     PureCloudPlatform.Client.V2.Model.JsonSchemaDocument schema = new PureCloudPlatform.Client.V2.Model.JsonSchemaDocument(null,
@@ -330,7 +380,6 @@ namespace PureCloud_simulator
 
                 var datatableEntityListing = architect.PostFlowsDatatables(body);
 
-                this.AddRows_ANNONCE_MSG(filename, result);
 
             }
             catch (Exception ex)
@@ -341,41 +390,10 @@ namespace PureCloud_simulator
         }
 
 
-        public void AddRow(string dtId)
-        {
-            AddLog("AddRow");
-            try
-            {
-                var pageNumber = 1;
-                var pageCount = 1;
-                //var dtRow = "{\"KEY\": \"XYZZY2\", \"Heure_Ouvert\": \"1\", \"Heure_Fermé\": \"1\", \"Activé\": false }";
-                //var dtRow = "{'KEY': 'XYZZY2', 'Heure_Ouvert': '1', 'Heure_Fermé': '1', 'Activé': false }";
-
-                DataTableRow dtRow = new DataTableRow();
-                dtRow.KEY = "XYZZY3";
-                //dtRow.Heure_Ouvert = "2";
-                //dtRow.Heure_Fermé = "2";
-                //dtRow.Activé = false;
-
-                var test2 = architect.PostFlowsDatatableRows(dtId, dtRow);
-
-                
-
-                AddLog("AddRow");
-
-            }
-            catch (Exception ex)
-            {
-                AddLog($"Error in AddRow: {ex.Message}");
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-        }
-
-
         public void AddRows(string filename, string dtId)
         {
             AddLog("AddRows started");
+            
             try
             {
                 using (var reader = new StreamReader(filename))
@@ -386,42 +404,49 @@ namespace PureCloud_simulator
 
                     var dtRowsProto = csv.GetRecords<dynamic>();
 
-                    var fields = architect.GetFlowsDatatable(dtId, "schema" );
-
-                    Dictionary<string, string> prototype = new Dictionary<string, string>();
-
-                    KeyValuePair<string, object> proto = new KeyValuePair<string, object>();
-
-                    IList<Newtonsoft.Json.Linq.JObject> test3;
-
-
-                    foreach (KeyValuePair<string, object> field in fields.Schema.Properties)
+                    foreach (ICollection<KeyValuePair<string, object>> dtRow in dtRowsProto)
                     {
-                        var test1 = field.Key;
-                        var test2 = field.Value;
+                        bool first_item = true;
 
+                        Dictionary<string, object> dtRow2 = new Dictionary<string, object>();
 
-                        //test3 = (IList<Newtonsoft.Json.Linq.JObject>)field.Value;
-
-                        var test4 = Newtonsoft.Json.Linq.JObject.FromObject(field.Value);
-
-                        foreach (var test5 in test4)
+                        foreach (var field in dtRow)
                         {
-                            var test6 = test5.Key;
-                            var test7 = test5.Value;
+                            if (first_item)
+                            {
+                                dtRow2.Add("KEY", field.Value);
+                                first_item = false;
+                            }
+                            else
+                            {
+                                if (field.Value.Equals("true") || field.Value.Equals("True") || field.Value.Equals("TRUE"))
+                                {
+                                    dtRow2.Add(field.Key, true);
+                                }
+                                else if (field.Value.Equals("false") || field.Value.Equals("False") || field.Value.Equals("FALSE"))
+                                {
+                                    dtRow2.Add(field.Key, false);
+                                }
+                                else
+                                {
+                                    dtRow2.Add(field.Key, field.Value);
+                                }
+                            }
                         }
 
+                        try
+                        {
+                            var addRowInDataTable = architect.PostFlowsDatatableRows(dtId, dtRow2);
+                            AddLog("AddRow " + dtRow2.Keys.ToString());
+                        }
+                        catch (ApiException ex)
+                        {
+                            if (ex.ErrorCode.Equals(409))
+                            {
+                                AddLog($"Existing key " + ex.ErrorContent + " " + ex.Message);
+                            }
+                        }
 
-                    }
-
-
-
-                    foreach (var dtRow in dtRowsProto)
-                    {
-                        
-                        var addRowInDataTable = architect.PostFlowsDatatableRows(dtId, dtRow);
-
-                        AddLog("AddRow " + dtRow.KEY);
                     }
                 }
 
@@ -435,244 +460,7 @@ namespace PureCloud_simulator
             }
 
         }
-
-
-        public void AddRows_ROUTAGE_CP_OK(string filename, string dtId)
-        {
-            AddLog("AddRows started");
-            try
-            {
-                using (var reader = new StreamReader(filename))
-                using (var csv = new CsvReader(reader))
-                {
-                    csv.Configuration.Delimiter = ";";
-                    csv.Configuration.HasHeaderRecord = true;
-
-                    var dtRows = csv.GetRecords<DataTableRow_ROUTAGE_CP_OK>();
-
-                    foreach (var dtRow in dtRows)
-                    {
-                        //AddRow(dtId, test);
-                        var addRowInDataTable = architect.PostFlowsDatatableRows(dtId, dtRow);
-
-                        AddLog("AddRow " + dtRow.KEY);
-                    }
-                }
-
-                AddLog("AddRows finished");
-
-            }
-            catch (Exception ex)
-            {
-                AddLog($"Error in AddRows: {ex.Message}");
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-        }
-
-        public void AddRows_ANNONCE_MSG(string filename, string dtId)
-        {
-            AddLog("AddRows started");
-            try
-            {
-                using (var reader = new StreamReader(filename))
-                using (var csv = new CsvReader(reader))
-                {
-                    csv.Configuration.Delimiter = ";";
-                    csv.Configuration.HasHeaderRecord = true;
-
-                    var dtRows = csv.GetRecords<DataTableRow_ANNONCE_MSG>();
-
-                    foreach (var dtRow in dtRows)
-                    {
-                        //AddRow(dtId, test);
-                        var addRowInDataTable = architect.PostFlowsDatatableRows(dtId, dtRow);
-
-
-
-
-                        AddLog("AddRow " + dtRow.KEY);
-                    }
-                }
-
-                AddLog("AddRows finished");
-
-            }
-            catch (Exception ex)
-            {
-                AddLog($"Error in AddRows: {ex.Message}");
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-        }
-
-        public void AddRows_ANNONCE_MSG_FLASH(string filename, string dtId)
-        {
-            AddLog("AddRows started");
-            try
-            {
-                using (var reader = new StreamReader(filename))
-                using (var csv = new CsvReader(reader))
-                {
-                    csv.Configuration.Delimiter = ";";
-                    csv.Configuration.HasHeaderRecord = true;
-
-                    var dtRows = csv.GetRecords<DataTableRow_ANNONCE_MSG_FLASH>();
-
-                    foreach (var dtRow in dtRows)
-                    {
-                        //AddRow(dtId, test);
-                        var addRowInDataTable = architect.PostFlowsDatatableRows(dtId, dtRow);
-
-                        AddLog("AddRow " + dtRow.KEY);
-                    }
-                }
-
-                AddLog("AddRows finished");
-
-            }
-            catch (Exception ex)
-            {
-                AddLog($"Error in AddRows: {ex.Message}");
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-        }
-
-        public void AddRows_ROUTAGE_ANG(string filename, string dtId)
-        {
-            AddLog("AddRows started");
-            try
-            {
-                using (var reader = new StreamReader(filename))
-                using (var csv = new CsvReader(reader))
-                {
-                    csv.Configuration.Delimiter = ";";
-                    csv.Configuration.HasHeaderRecord = true;
-
-                    var dtRows = csv.GetRecords<DataTableRow_ROUTAGE_CP_OK>();
-
-                    foreach (var dtRow in dtRows)
-                    {
-                        //AddRow(dtId, test);
-                        var addRowInDataTable = architect.PostFlowsDatatableRows(dtId, dtRow);
-
-                        AddLog("AddRow " + dtRow.KEY);
-                    }
-                }
-
-                AddLog("AddRows finished");
-
-            }
-            catch (Exception ex)
-            {
-                AddLog($"Error in AddRows: {ex.Message}");
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-        }
-
-
-        public void DeleteRows_ROUTAGE_ANG(string filename, string dtId)
-        {
-            AddLog("Delete started");
-            try
-            {
-
-
-
-                /*using (var reader = new StreamReader(filename))
-                using (var csv = new CsvReader(reader))
-                {
-                    csv.Configuration.Delimiter = ";";
-                    csv.Configuration.HasHeaderRecord = true;
-
-                    var dtRows = csv.GetRecords<DataTableRow_ROUTAGE_CP_OK>();
-
-                    foreach (var dtRow in dtRows)
-                    {
-                        //AddRow(dtId, test);
-                        //var addRowInDataTable = architect.DeleteFlowsDatatableRow(dtId, dtRow);
-
-                        AddLog("AddRow " + dtRow.KEY);
-                    }
-                }
-
-                AddLog("AddRows finished");*/
-
-            }
-            catch (Exception ex)
-            {
-                AddLog($"Error in AddRows: {ex.Message}");
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-        }
-        public void AddRows_ROUTAGE_CP_KO(string filename, string dtId)
-        {
-            AddLog("AddRows started");
-            try
-            {
-                using (var reader = new StreamReader(filename))
-                using (var csv = new CsvReader(reader))
-                {
-                    csv.Configuration.Delimiter = ";";
-                    csv.Configuration.HasHeaderRecord = true;
-
-                    var dtRows = csv.GetRecords<DataTableRow_ROUTAGE_CP_KO>();
-
-                    foreach (var dtRow in dtRows)
-                    {
-                        //AddRow(dtId, test);
-                        var addRowInDataTable = architect.PostFlowsDatatableRows(dtId, dtRow);
-
-                        AddLog("AddRow " + dtRow.KEY);
-                    }
-                }
-
-                AddLog("AddRows finished");
-
-            }
-            catch (Exception ex)
-            {
-                AddLog($"Error in AddRows: {ex.Message}");
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-        }
-
-        public void AddRows_ANNONCE_SONDAGE(string filename, string dtId)
-        {
-            AddLog("AddRows started");
-            try
-            {
-                using (var reader = new StreamReader(filename))
-                using (var csv = new CsvReader(reader))
-                {
-                    csv.Configuration.Delimiter = ";";
-                    csv.Configuration.HasHeaderRecord = true;
-
-                    var dtRows = csv.GetRecords<DataTableRow_ANNONCE_SONDAGE>();
-
-                    foreach (var dtRow in dtRows)
-                    {
-                        //AddRow(dtId, test);
-                        var addRowInDataTable = architect.PostFlowsDatatableRows(dtId, dtRow);
-
-                        AddLog("AddRow " + dtRow.KEY);
-                    }
-                }
-
-                AddLog("AddRows finished");
-
-            }
-            catch (Exception ex)
-            {
-                AddLog($"Error in AddRows: {ex.Message}");
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-        }
+        
 
         public void AddRow(string dtId, DataTableRow dtRow)
         {
@@ -730,38 +518,26 @@ namespace PureCloud_simulator
 
         }
 
-
-
-        /*public void CreateDataTable(string dataTableName)
+        public void DeleteDataTable(string filename)
         {
+            AddLog("DeleteDataTable");
             try
             {
-                PureCloudPlatform.Client.V2.Model.DataTable dt = new PureCloudPlatform.Client.V2.Model.DataTable();
+                var shortFileName = Path.GetFileNameWithoutExtension(filename);
 
-                dt.Name = "";
+                var dtId = GetDataTableId(shortFileName);
 
-                dt.Schema.Properties.Keys = "";
+                architect.DeleteFlowsDatatable(dtId, true);
 
-
-                architect.PostFlowsDatatables(dt);
-
-                AddLog("CreateDataTable");
-
-            }
-            catch (ApiException ex)
-            {
-                AddLog($"Error in AddRow: {ex.Message}");
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                AddLog($"DeleteDataTable {shortFileName} successfully");
             }
             catch (Exception ex)
             {
-                AddLog($"Error in AddRow: {ex.Message}");
+                AddLog($"Error in GetDataTable: {ex.Message}");
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-        }*/
-
+        }
 
     }
 }
