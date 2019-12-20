@@ -56,7 +56,6 @@ namespace PureCloud_simulator
             this.btnAddSkill = new System.Windows.Forms.Button();
             this.btnGetSkills = new System.Windows.Forms.Button();
             this.btnGetDataTable = new System.Windows.Forms.Button();
-            this.btnDataTableAddRow = new System.Windows.Forms.Button();
             this.btnGetRowDataTable = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabQueues = new System.Windows.Forms.TabPage();
@@ -65,6 +64,7 @@ namespace PureCloud_simulator
             this.btnEwt = new System.Windows.Forms.Button();
             this.tabSkills = new System.Windows.Forms.TabPage();
             this.tabDataTables = new System.Windows.Forms.TabPage();
+            this.comboDatatables = new System.Windows.Forms.ComboBox();
             this.btnImport = new System.Windows.Forms.Button();
             this.btnCreateAndFillDataTable = new System.Windows.Forms.Button();
             this.btnCreateDataTable = new System.Windows.Forms.Button();
@@ -99,6 +99,7 @@ namespace PureCloud_simulator
             this.btnMonitor = new System.Windows.Forms.Button();
             this.tmrEwt = new System.Windows.Forms.Timer(this.components);
             this.btnTest = new System.Windows.Forms.Button();
+            this.btnLoadDatatable = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabQueues.SuspendLayout();
@@ -381,23 +382,13 @@ namespace PureCloud_simulator
             // 
             // btnGetDataTable
             // 
-            this.btnGetDataTable.Location = new System.Drawing.Point(23, 27);
+            this.btnGetDataTable.Location = new System.Drawing.Point(123, 27);
             this.btnGetDataTable.Name = "btnGetDataTable";
-            this.btnGetDataTable.Size = new System.Drawing.Size(91, 23);
+            this.btnGetDataTable.Size = new System.Drawing.Size(98, 23);
             this.btnGetDataTable.TabIndex = 21;
             this.btnGetDataTable.Text = "Get DT";
             this.btnGetDataTable.UseVisualStyleBackColor = true;
             this.btnGetDataTable.Click += new System.EventHandler(this.btnGetDataTable_Click);
-            // 
-            // btnDataTableAddRow
-            // 
-            this.btnDataTableAddRow.Location = new System.Drawing.Point(135, 27);
-            this.btnDataTableAddRow.Name = "btnDataTableAddRow";
-            this.btnDataTableAddRow.Size = new System.Drawing.Size(75, 23);
-            this.btnDataTableAddRow.TabIndex = 22;
-            this.btnDataTableAddRow.Text = "Add Row";
-            this.btnDataTableAddRow.UseVisualStyleBackColor = true;
-            this.btnDataTableAddRow.Click += new System.EventHandler(this.btnDataTableAddRow_Click);
             // 
             // btnGetRowDataTable
             // 
@@ -490,12 +481,13 @@ namespace PureCloud_simulator
             // 
             // tabDataTables
             // 
+            this.tabDataTables.Controls.Add(this.btnLoadDatatable);
+            this.tabDataTables.Controls.Add(this.comboDatatables);
             this.tabDataTables.Controls.Add(this.btnImport);
             this.tabDataTables.Controls.Add(this.btnCreateAndFillDataTable);
             this.tabDataTables.Controls.Add(this.btnCreateDataTable);
             this.tabDataTables.Controls.Add(this.btnGetDataTable);
             this.tabDataTables.Controls.Add(this.btnAddRowsDataTable);
-            this.tabDataTables.Controls.Add(this.btnDataTableAddRow);
             this.tabDataTables.Controls.Add(this.btnGetRowDataTable);
             this.tabDataTables.Location = new System.Drawing.Point(4, 25);
             this.tabDataTables.Name = "tabDataTables";
@@ -504,6 +496,14 @@ namespace PureCloud_simulator
             this.tabDataTables.TabIndex = 2;
             this.tabDataTables.Text = "DataTables";
             this.tabDataTables.UseVisualStyleBackColor = true;
+            // 
+            // comboDatatables
+            // 
+            this.comboDatatables.FormattingEnabled = true;
+            this.comboDatatables.Location = new System.Drawing.Point(23, 65);
+            this.comboDatatables.Name = "comboDatatables";
+            this.comboDatatables.Size = new System.Drawing.Size(198, 24);
+            this.comboDatatables.TabIndex = 34;
             // 
             // btnImport
             // 
@@ -871,6 +871,16 @@ namespace PureCloud_simulator
             this.btnTest.UseVisualStyleBackColor = true;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
+            // btnLoadDatatable
+            // 
+            this.btnLoadDatatable.Location = new System.Drawing.Point(23, 27);
+            this.btnLoadDatatable.Name = "btnLoadDatatable";
+            this.btnLoadDatatable.Size = new System.Drawing.Size(94, 23);
+            this.btnLoadDatatable.TabIndex = 35;
+            this.btnLoadDatatable.Text = "Load DT";
+            this.btnLoadDatatable.UseVisualStyleBackColor = true;
+            this.btnLoadDatatable.Click += new System.EventHandler(this.btnLoadDatatable_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -929,7 +939,6 @@ namespace PureCloud_simulator
         private System.Windows.Forms.Button btnAddSkill;
         private System.Windows.Forms.Button btnGetSkills;
         private System.Windows.Forms.Button btnGetDataTable;
-        private System.Windows.Forms.Button btnDataTableAddRow;
         private System.Windows.Forms.Button btnGetRowDataTable;
         private System.Windows.Forms.Button btnCreateQueue;
         private System.Windows.Forms.Button btnAddRowsDataTable;
@@ -974,6 +983,8 @@ namespace PureCloud_simulator
         private System.Windows.Forms.Button btnUserRole;
         private System.Windows.Forms.Button btnGetUserProfile;
         private System.Windows.Forms.Button btnDeleteHomeDivision;
+        private System.Windows.Forms.ComboBox comboDatatables;
+        private System.Windows.Forms.Button btnLoadDatatable;
     }
 }
 

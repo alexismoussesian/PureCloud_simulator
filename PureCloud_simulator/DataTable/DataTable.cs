@@ -12,10 +12,12 @@ namespace PureCloud_simulator
     {
         ArchitectApi architect;
         ListBox _lstLog;
+        ComboBox _combo;
 
-        public DataTable(ListBox lstLog)
+        public DataTable(ListBox lstLog, ComboBox combo)
         {
             _lstLog = lstLog;
+            _combo = combo;
             architect = new ArchitectApi();
 
         }
@@ -26,10 +28,42 @@ namespace PureCloud_simulator
             _lstLog.SelectedIndex = -1;
         }
 
-
         public void GetDataTable()
         {
-            AddLog("GetDataTable");
+            AddLog("Load all DataTables");
+            try
+            {
+                Dictionary<string, string> ListOfDataTables = new Dictionary<string, string>();
+                var pageSize = 100;
+                var pageNumber = 1;
+                int itemNumber = 1;
+
+                var datatableEntityListing = architect.GetFlowsDatatables("", pageNumber, pageSize, "id", "ascending");
+
+                foreach (var item in datatableEntityListing.Entities)
+                {
+                    _combo.Items.Add(item.Name);
+                    ListOfDataTables.Add(item.Id, item.Name);
+                    AddLog($"load Datatable {item.Name} #{itemNumber++}/{datatableEntityListing.Total}");
+                }
+
+                AddLog($"{datatableEntityListing.Total} Datatable loaded successfully");
+            }
+            catch (Exception ex)
+            {
+                AddLog($"Error in GetDataTable: {ex.Message}");
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        /// <summary>
+        /// Get the structure and the data of the datatable and export in a CSV file
+        /// </summary>
+        /// <param name="filename"></param>
+        public void ExportDataTable(string filename)
+        {
+            AddLog("GetDataTable " + filename);
             try
             {
                 var pageNumber = 1;
@@ -250,6 +284,11 @@ namespace PureCloud_simulator
         }
 
 
+        /// <summary>
+        /// Create DataTables from the CSV file. Create the structure from the header of the CSV.
+        /// If the CSV contains a fields with true/false, it create the boolean field
+        /// </summary>
+        /// <param name="filename"></param>
         public void CreateAndFillDataTable(string filename)
         {
             try
@@ -390,6 +429,11 @@ namespace PureCloud_simulator
         }
 
 
+        /// <summary>
+        /// Insert rows in the datatable from the CSV file
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="dtId"></param>
         public void AddRows(string filename, string dtId)
         {
             AddLog("AddRows started");
@@ -437,7 +481,7 @@ namespace PureCloud_simulator
                         try
                         {
                             var addRowInDataTable = architect.PostFlowsDatatableRows(dtId, dtRow2);
-                            AddLog("AddRow " + dtRow2.Keys.ToString());
+                            AddLog("AddRow " + dtRow2["KEY"]);
                         }
                         catch (ApiException ex)
                         {

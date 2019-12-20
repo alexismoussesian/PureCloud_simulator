@@ -82,7 +82,7 @@ namespace PureCloud_simulator
 
             queue = new Queue(lstLog);
             skill = new Skill(lstLog);
-            dt = new DataTable(lstLog);
+            dt = new DataTable(lstLog, comboDatatables);
             wc = new WrapupCodes_Qualif(lstLog);
             quality = new Quality(lstLog);
 
@@ -213,16 +213,17 @@ namespace PureCloud_simulator
 
         private void btnGetDataTable_Click(object sender, EventArgs e)
         {
-            //dt.GetDataTable();
-            dt.GetDataTableSchema("AMO - Calendrier VIP");
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "CSV Files (*.csv)|*.csv";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                dt.ExportDataTable(dialog.FileName);
+
+            }
 
         }
 
-        private void btnDataTableAddRow_Click(object sender, EventArgs e)
-        {
 
-
-        }
 
         private void btnGetRowDataTable_Click(object sender, EventArgs e)
         {
@@ -537,6 +538,11 @@ namespace PureCloud_simulator
             {
                 user.DeleteHomeDivision_FromCsv_withApiLimit(dialog.FileName);
             }
+        }
+
+        private void btnLoadDatatable_Click(object sender, EventArgs e)
+        {
+            dt.GetDataTable();
         }
     }
 }
