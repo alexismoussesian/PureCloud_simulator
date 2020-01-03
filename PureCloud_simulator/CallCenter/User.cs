@@ -719,7 +719,7 @@ namespace PureCloud_simulator.CallCenter
         }
 
 
-        public void GetAllUsers()
+        public void ExportAllUsers()
         {
             try
             {
@@ -825,6 +825,75 @@ namespace PureCloud_simulator.CallCenter
             }
         }
 
+
+        public Dictionary<string, string> GetAllUsers()
+        {
+            Dictionary<string, string> ListOfUsers = new Dictionary<string, string>();
+            try
+            {
+                int i = 1;
+
+                UserSearchCriteria userSearchCriteria = new UserSearchCriteria();
+                userSearchCriteria.Value = "";
+
+                userSearchCriteria.Type = UserSearchCriteria.TypeEnum.MatchAll;
+
+                List<UserSearchCriteria> listOfUserSearchCriteria = new List<UserSearchCriteria>();
+                listOfUserSearchCriteria.Add(userSearchCriteria);
+
+
+                UserSearchRequest userSearchRequest = new UserSearchRequest();
+                userSearchRequest.Query = listOfUserSearchCriteria;
+
+                List<string> listOfString = new List<string>();
+                listOfString.Add("skills");
+                userSearchRequest.Expand = listOfString;
+                userSearchRequest.PageNumber = 0;
+                userSearchRequest.PageSize = 100;
+                UsersSearchResponse userEntityListing = null;
+                do
+                {
+                    userSearchRequest.PageNumber = userSearchRequest.PageNumber + 1;
+
+                    userEntityListing = usersApi.PostUsersSearch(userSearchRequest);
+
+                    foreach (var user in userEntityListing.Results)
+                    {
+                        AddLog("User: " + user.Name);
+                        ListOfUsers.Add(user.Id, user.Name);
+                    }
+
+                } while (userEntityListing.Results.Count == 100);
+
+                AddLog($"GatUsers finished with {i} users");
+
+            }
+            catch (ApiException ex)
+            {
+                if (ex.ErrorCode != 429)
+                {
+                    AddLog($"Error in GetAllUsers: {ex.Message}");
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    string ratelimitCount;
+                    string ratelimitAllowed;
+                    string ratelimitReset;
+                    ex.Headers.TryGetValue("inin-ratelimit-count", out ratelimitCount);
+                    ex.Headers.TryGetValue("inin-ratelimit-allowed", out ratelimitAllowed);
+                    ex.Headers.TryGetValue("inin-ratelimit-reset", out ratelimitReset);
+                    AddLog($"API rate limit has been reached, {nameof(ratelimitCount)}:{ratelimitCount}, {nameof(ratelimitAllowed)}:{ratelimitAllowed}, {nameof(ratelimitReset)}:{ratelimitReset}");
+                }
+            }
+            catch (Exception ex)
+            {
+                AddLog($"Error in GetAllUsers: {ex.Message}");
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return ListOfUsers;
+        }
 
 
         /// <summary>

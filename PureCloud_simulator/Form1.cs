@@ -1,5 +1,6 @@
 ﻿using PureCloud_simulator.CallCenter;
 using PureCloud_simulator.Telephony;
+using PureCloud_simulator.Audit;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,8 +31,10 @@ namespace PureCloud_simulator
         WrapupCodes_Qualif wc;
         Agent agent;
         Quality quality;
+        Audit.Audit audit;
 
         string[] queueId;
+        string auditTransactionId = "";
 
         public Form1()
         {
@@ -85,6 +88,7 @@ namespace PureCloud_simulator
             dt = new DataTable(lstLog, comboDatatables);
             wc = new WrapupCodes_Qualif(lstLog);
             quality = new Quality(lstLog);
+            audit = new Audit.Audit(lstLog);
 
             TextBox.CheckForIllegalCrossThreadCalls = false;
             ListBox.CheckForIllegalCrossThreadCalls = false;
@@ -356,7 +360,7 @@ namespace PureCloud_simulator
         private void btnExport_Click(object sender, EventArgs e)
         {
             User userMember = new User(lstLog);
-            userMember.GetAllUsers();
+            userMember.ExportAllUsers();
 
             
         }
@@ -543,6 +547,50 @@ namespace PureCloud_simulator
         private void btnLoadDatatable_Click(object sender, EventArgs e)
         {
             dt.GetDataTable();
+        }
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            User user = new User(lstLog);
+
+            var ListUsers = user.GetAllUsers();
+
+            var myList = ListUsers.ToList();
+            myList.Sort((pair1, pair2) => pair1.Value.CompareTo(pair2.Value));
+
+            foreach (var item in myList)
+            {
+                AddLog($"User {item.Key} for {item.Value}");
+                cmbListUserAudit.Items.Add(item.Value + "|" + item.Key);
+            }
+            //cmbListUserAudit.Items.Add("titi");
+            //cmbListUserAudit.Items.Add("tata");
+        }
+
+        private void btnAudit_Click(object sender, EventArgs e)
+        {
+            var choix = cmbListUserAudit.Text;
+
+            if (!choix.Equals(""))
+            {
+                var result = choix.Split('|');
+                auditTransactionId = audit.StartAudit(result[1]);
+            }
+            else
+            {
+                MessageBox.Show("Please select a user !");
+            }
+
+        }
+
+        private void btnGetAudit_Click(object sender, EventArgs e)
+        {
+            audit.GetAudit(auditTransactionId);
+        }
+
+        private void btnEndAudit_Click(object sender, EventArgs e)
+        {
+            audit.EndAudit();
         }
     }
 }

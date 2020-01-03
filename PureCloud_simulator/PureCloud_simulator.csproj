@@ -82,6 +82,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audit\Audit.cs" />
     <Compile Include="CallCenter\Agent.cs" />
     <Compile Include="CallCenter\Division.cs" />
     <Compile Include="CallCenter\Interactions.cs" />

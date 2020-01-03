@@ -64,6 +64,7 @@ namespace PureCloud_simulator
             this.btnEwt = new System.Windows.Forms.Button();
             this.tabSkills = new System.Windows.Forms.TabPage();
             this.tabDataTables = new System.Windows.Forms.TabPage();
+            this.btnLoadDatatable = new System.Windows.Forms.Button();
             this.comboDatatables = new System.Windows.Forms.ComboBox();
             this.btnImport = new System.Windows.Forms.Button();
             this.btnCreateAndFillDataTable = new System.Windows.Forms.Button();
@@ -99,7 +100,12 @@ namespace PureCloud_simulator
             this.btnMonitor = new System.Windows.Forms.Button();
             this.tmrEwt = new System.Windows.Forms.Timer(this.components);
             this.btnTest = new System.Windows.Forms.Button();
-            this.btnLoadDatatable = new System.Windows.Forms.Button();
+            this.tabAudit = new System.Windows.Forms.TabPage();
+            this.btnLoad = new System.Windows.Forms.Button();
+            this.cmbListUserAudit = new System.Windows.Forms.ComboBox();
+            this.btnAudit = new System.Windows.Forms.Button();
+            this.btnGetAudit = new System.Windows.Forms.Button();
+            this.btnEndAudit = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabQueues.SuspendLayout();
@@ -110,6 +116,7 @@ namespace PureCloud_simulator
             this.tabPageInteractions.SuspendLayout();
             this.tabQuality.SuspendLayout();
             this.tabEdges.SuspendLayout();
+            this.tabAudit.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -319,7 +326,7 @@ namespace PureCloud_simulator
             // btnClearLog
             // 
             this.btnClearLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClearLog.Location = new System.Drawing.Point(13, 246);
+            this.btnClearLog.Location = new System.Drawing.Point(57, 246);
             this.btnClearLog.Margin = new System.Windows.Forms.Padding(4);
             this.btnClearLog.Name = "btnClearLog";
             this.btnClearLog.Size = new System.Drawing.Size(100, 28);
@@ -338,7 +345,7 @@ namespace PureCloud_simulator
             this.lstLog.Location = new System.Drawing.Point(12, 298);
             this.lstLog.Margin = new System.Windows.Forms.Padding(4);
             this.lstLog.Name = "lstLog";
-            this.lstLog.Size = new System.Drawing.Size(1040, 180);
+            this.lstLog.Size = new System.Drawing.Size(1084, 180);
             this.lstLog.TabIndex = 16;
             // 
             // btnEncrypt
@@ -410,10 +417,11 @@ namespace PureCloud_simulator
             this.tabControl1.Controls.Add(this.tabPageInteractions);
             this.tabControl1.Controls.Add(this.tabQuality);
             this.tabControl1.Controls.Add(this.tabEdges);
-            this.tabControl1.Location = new System.Drawing.Point(475, 12);
+            this.tabControl1.Controls.Add(this.tabAudit);
+            this.tabControl1.Location = new System.Drawing.Point(458, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(578, 279);
+            this.tabControl1.Size = new System.Drawing.Size(638, 279);
             this.tabControl1.TabIndex = 24;
             // 
             // tabQueues
@@ -432,7 +440,7 @@ namespace PureCloud_simulator
             this.tabQueues.Location = new System.Drawing.Point(4, 25);
             this.tabQueues.Name = "tabQueues";
             this.tabQueues.Padding = new System.Windows.Forms.Padding(3);
-            this.tabQueues.Size = new System.Drawing.Size(570, 250);
+            this.tabQueues.Size = new System.Drawing.Size(587, 250);
             this.tabQueues.TabIndex = 3;
             this.tabQueues.Text = "Queues";
             this.tabQueues.UseVisualStyleBackColor = true;
@@ -474,7 +482,7 @@ namespace PureCloud_simulator
             this.tabSkills.Location = new System.Drawing.Point(4, 25);
             this.tabSkills.Name = "tabSkills";
             this.tabSkills.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSkills.Size = new System.Drawing.Size(570, 250);
+            this.tabSkills.Size = new System.Drawing.Size(587, 250);
             this.tabSkills.TabIndex = 1;
             this.tabSkills.Text = "Skills";
             this.tabSkills.UseVisualStyleBackColor = true;
@@ -492,10 +500,20 @@ namespace PureCloud_simulator
             this.tabDataTables.Location = new System.Drawing.Point(4, 25);
             this.tabDataTables.Name = "tabDataTables";
             this.tabDataTables.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDataTables.Size = new System.Drawing.Size(570, 250);
+            this.tabDataTables.Size = new System.Drawing.Size(587, 250);
             this.tabDataTables.TabIndex = 2;
             this.tabDataTables.Text = "DataTables";
             this.tabDataTables.UseVisualStyleBackColor = true;
+            // 
+            // btnLoadDatatable
+            // 
+            this.btnLoadDatatable.Location = new System.Drawing.Point(23, 27);
+            this.btnLoadDatatable.Name = "btnLoadDatatable";
+            this.btnLoadDatatable.Size = new System.Drawing.Size(94, 23);
+            this.btnLoadDatatable.TabIndex = 35;
+            this.btnLoadDatatable.Text = "Load DT";
+            this.btnLoadDatatable.UseVisualStyleBackColor = true;
+            this.btnLoadDatatable.Click += new System.EventHandler(this.btnLoadDatatable_Click);
             // 
             // comboDatatables
             // 
@@ -541,7 +559,7 @@ namespace PureCloud_simulator
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(570, 250);
+            this.tabPage1.Size = new System.Drawing.Size(587, 250);
             this.tabPage1.TabIndex = 4;
             this.tabPage1.Text = "Wrapup code";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -581,7 +599,7 @@ namespace PureCloud_simulator
             this.tabUsers.Location = new System.Drawing.Point(4, 25);
             this.tabUsers.Name = "tabUsers";
             this.tabUsers.Padding = new System.Windows.Forms.Padding(3);
-            this.tabUsers.Size = new System.Drawing.Size(570, 250);
+            this.tabUsers.Size = new System.Drawing.Size(587, 250);
             this.tabUsers.TabIndex = 5;
             this.tabUsers.Text = "Users";
             this.tabUsers.UseVisualStyleBackColor = true;
@@ -799,7 +817,7 @@ namespace PureCloud_simulator
             this.tabPageInteractions.Location = new System.Drawing.Point(4, 25);
             this.tabPageInteractions.Name = "tabPageInteractions";
             this.tabPageInteractions.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageInteractions.Size = new System.Drawing.Size(570, 250);
+            this.tabPageInteractions.Size = new System.Drawing.Size(587, 250);
             this.tabPageInteractions.TabIndex = 6;
             this.tabPageInteractions.Text = "Interactions";
             this.tabPageInteractions.UseVisualStyleBackColor = true;
@@ -820,7 +838,7 @@ namespace PureCloud_simulator
             this.tabQuality.Location = new System.Drawing.Point(4, 25);
             this.tabQuality.Name = "tabQuality";
             this.tabQuality.Padding = new System.Windows.Forms.Padding(3);
-            this.tabQuality.Size = new System.Drawing.Size(570, 250);
+            this.tabQuality.Size = new System.Drawing.Size(587, 250);
             this.tabQuality.TabIndex = 8;
             this.tabQuality.Text = "Quality";
             this.tabQuality.UseVisualStyleBackColor = true;
@@ -840,7 +858,7 @@ namespace PureCloud_simulator
             this.tabEdges.Controls.Add(this.btnMonitor);
             this.tabEdges.Location = new System.Drawing.Point(4, 25);
             this.tabEdges.Name = "tabEdges";
-            this.tabEdges.Size = new System.Drawing.Size(570, 250);
+            this.tabEdges.Size = new System.Drawing.Size(587, 250);
             this.tabEdges.TabIndex = 7;
             this.tabEdges.Text = "Edges";
             this.tabEdges.UseVisualStyleBackColor = true;
@@ -871,21 +889,74 @@ namespace PureCloud_simulator
             this.btnTest.UseVisualStyleBackColor = true;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
-            // btnLoadDatatable
+            // tabAudit
             // 
-            this.btnLoadDatatable.Location = new System.Drawing.Point(23, 27);
-            this.btnLoadDatatable.Name = "btnLoadDatatable";
-            this.btnLoadDatatable.Size = new System.Drawing.Size(94, 23);
-            this.btnLoadDatatable.TabIndex = 35;
-            this.btnLoadDatatable.Text = "Load DT";
-            this.btnLoadDatatable.UseVisualStyleBackColor = true;
-            this.btnLoadDatatable.Click += new System.EventHandler(this.btnLoadDatatable_Click);
+            this.tabAudit.Controls.Add(this.btnEndAudit);
+            this.tabAudit.Controls.Add(this.btnGetAudit);
+            this.tabAudit.Controls.Add(this.btnAudit);
+            this.tabAudit.Controls.Add(this.cmbListUserAudit);
+            this.tabAudit.Controls.Add(this.btnLoad);
+            this.tabAudit.Location = new System.Drawing.Point(4, 25);
+            this.tabAudit.Name = "tabAudit";
+            this.tabAudit.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAudit.Size = new System.Drawing.Size(630, 250);
+            this.tabAudit.TabIndex = 9;
+            this.tabAudit.Text = "Audit";
+            this.tabAudit.UseVisualStyleBackColor = true;
+            // 
+            // btnLoad
+            // 
+            this.btnLoad.Location = new System.Drawing.Point(311, 15);
+            this.btnLoad.Name = "btnLoad";
+            this.btnLoad.Size = new System.Drawing.Size(75, 23);
+            this.btnLoad.TabIndex = 0;
+            this.btnLoad.Text = "Load";
+            this.btnLoad.UseVisualStyleBackColor = true;
+            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
+            // 
+            // cmbListUserAudit
+            // 
+            this.cmbListUserAudit.FormattingEnabled = true;
+            this.cmbListUserAudit.Location = new System.Drawing.Point(18, 16);
+            this.cmbListUserAudit.Name = "cmbListUserAudit";
+            this.cmbListUserAudit.Size = new System.Drawing.Size(269, 24);
+            this.cmbListUserAudit.TabIndex = 1;
+            // 
+            // btnAudit
+            // 
+            this.btnAudit.Location = new System.Drawing.Point(18, 64);
+            this.btnAudit.Name = "btnAudit";
+            this.btnAudit.Size = new System.Drawing.Size(115, 23);
+            this.btnAudit.TabIndex = 2;
+            this.btnAudit.Text = "Start Audit";
+            this.btnAudit.UseVisualStyleBackColor = true;
+            this.btnAudit.Click += new System.EventHandler(this.btnAudit_Click);
+            // 
+            // btnGetAudit
+            // 
+            this.btnGetAudit.Location = new System.Drawing.Point(165, 64);
+            this.btnGetAudit.Name = "btnGetAudit";
+            this.btnGetAudit.Size = new System.Drawing.Size(75, 23);
+            this.btnGetAudit.TabIndex = 3;
+            this.btnGetAudit.Text = "Get Audit";
+            this.btnGetAudit.UseVisualStyleBackColor = true;
+            this.btnGetAudit.Click += new System.EventHandler(this.btnGetAudit_Click);
+            // 
+            // btnEndAudit
+            // 
+            this.btnEndAudit.Location = new System.Drawing.Point(18, 108);
+            this.btnEndAudit.Name = "btnEndAudit";
+            this.btnEndAudit.Size = new System.Drawing.Size(115, 23);
+            this.btnEndAudit.TabIndex = 4;
+            this.btnEndAudit.Text = "End Audit";
+            this.btnEndAudit.UseVisualStyleBackColor = true;
+            this.btnEndAudit.Click += new System.EventHandler(this.btnEndAudit_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1065, 498);
+            this.ClientSize = new System.Drawing.Size(1109, 498);
             this.Controls.Add(this.btnTest);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnDecrypt);
@@ -909,6 +980,7 @@ namespace PureCloud_simulator
             this.tabPageInteractions.ResumeLayout(false);
             this.tabQuality.ResumeLayout(false);
             this.tabEdges.ResumeLayout(false);
+            this.tabAudit.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -985,6 +1057,12 @@ namespace PureCloud_simulator
         private System.Windows.Forms.Button btnDeleteHomeDivision;
         private System.Windows.Forms.ComboBox comboDatatables;
         private System.Windows.Forms.Button btnLoadDatatable;
+        private System.Windows.Forms.TabPage tabAudit;
+        private System.Windows.Forms.Button btnAudit;
+        private System.Windows.Forms.ComboBox cmbListUserAudit;
+        private System.Windows.Forms.Button btnLoad;
+        private System.Windows.Forms.Button btnGetAudit;
+        private System.Windows.Forms.Button btnEndAudit;
     }
 }
 
